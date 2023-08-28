@@ -314,7 +314,7 @@ async function all() {
     const navDiv = document.getElementsByClassName("navDiv")[0];
     navDiv.style.display = "flex";
 
-    const response = await fetch("http://localhost:3001/");
+    const response = await fetch("https://study-project.onrender.com/");
     const data = await response.json();
     data.forEach((product) => {
         const productCard = document.createElement("div");
