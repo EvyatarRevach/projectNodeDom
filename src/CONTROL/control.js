@@ -48,7 +48,7 @@ export function toAddProduct(req, res) {
 export async function toEdit(req, res) {
     const productId = req.params.id;
     const productDetails = req.body;
-    const productIndex = AllProducts.findIndex(p => p.id === productId);
+    const productIndex = AllProducts.findIndex(p => p.id == productId);
     if (productIndex === -1) {
         return res.status(404).json({ message: 'Product not found' });
     }

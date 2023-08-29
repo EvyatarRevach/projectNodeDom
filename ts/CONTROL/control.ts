@@ -53,7 +53,7 @@ export function toAddProduct(req: Request, res: Response) {
 export async function toEdit(req: Request, res: Response) {
     const productId = req.params.id;
     const productDetails = req.body as Partial<ProductWithQuantity>;
-    const productIndex = AllProducts.findIndex(p => p.id === productId);
+    const productIndex = AllProducts.findIndex(p => p.id == productId);
     if (productIndex === -1) {
         return res.status(404).json({ message: 'Product not found' });
     }
