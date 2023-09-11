@@ -1,27 +1,59 @@
-import { AllProducts } from "../DAL/products.js";
-import jsonfile from 'jsonfile';
-import bcrypt from 'bcrypt';
-import shortid from 'shortid';
+import * as dal from "../DAL/DAL.js";
+import { uuid } from 'uuidv4';
+ 
 
-
-
-
-
-export function allProducts() {
+export async function allProducts() {
     try{
-        return AllProducts
-    }catch(error){
-        throw new Error ("Internal server error");
-
+    const all = await dal.allProducts();
+    return all;
+    }catch (error) {
+        console.log(error);
+        throw new Error('Failed to ');
     }
-};
-
-export async function toDelete(req, res){
-    const productId = Number(req.params.id)
-        const productIndex = AllProducts.findIndex(p => p.id === productId);
-        AllProducts.splice(productIndex, 1);
-        return res.send('Product has been successfully deleted');
 }
 
 
 
+export async function addProduct(product) {
+    try {
+        if (product.title && product.price && product.description && product.category && product.image && product.rating.rate && product.rating.count && product.quantity) {
+            product.id = uuid();
+            await dal.addProduct(product)
+            return 'The product has been successfully added';
+        } else {
+            return 'The product has not been added. Please complete the missing details';
+        }
+    } catch (error) {
+        console.log(error);
+        return Error('Failed to add product');
+    }
+}
+
+export async function editProduct(req, res) {
+
+    const productId = req.params.id;
+    const productDetails = req.body;
+
+    const productIndex = await dal.isProductExists(productId);
+
+    if (productIndex === false) {
+        throw new Error('Product not found');
+    }else
+    await dal.editProduct(productDetails, productId)
+    return 'Product has been successfully edited';
+}
+
+
+
+export async function deleteProduct(req, res){
+    const productId = req.params.id;
+    const productDetails = req.body;
+
+    const productIndex = await dal.isProductExists(productId);
+
+    if (productIndex === false) {
+        throw new Error('Product not found');
+    }else
+    await dal.deleteProduct(productId)
+    return 'Product has been successfully deleted';
+}

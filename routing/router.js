@@ -5,13 +5,15 @@ const productRouter = express.Router();
 
 
 
-productRouter.get('/',control.all);
+productRouter.get('/',control.allProducts);
 
-productRouter.post('/addProduct', control.toAddProduct)
+productRouter.post('/addProduct', control.addProduct)
 
-productRouter.delete('/deleteProduct/:id', control.toDeleteProduct)
 
-productRouter.put('/ProductEditing/:id', control.toEdit)
+productRouter.put('/ProductEditing/:id', control.editProduct)
+
+productRouter.delete('/deleteProduct/:id', control.deleteProduct)
+
 
 // productRouter.get('/:id', control.productById)
 
